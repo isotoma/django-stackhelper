@@ -17,14 +17,16 @@ def settings_dict():
         sd[k] = getattr(settings, k)
     return sd
 
-def gen_templates(template_path, outputdir):
-    pass
-
-def generate(template_path, outputdir):
+def gen_templates(template_path):
     environment = jinja2.Environment()
     sd = settings_dict()
     for data, name in templates(template_path):
         t = environment.from_string(data, globals=sd)
+        s = t.render()
+        yield name, s
+
+def generate(template_path, outputdir):
+    for name, contents in gen_templates(template_path):
         path = os.path.join(outputdir, name)
         d = os.path.dirname(path)
         if not os.path.exists(d):
