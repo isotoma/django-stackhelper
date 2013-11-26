@@ -37,9 +37,11 @@ def make_directories(path):
     if not os.path.exists(d):
         os.makedirs(d)
     
-def generate(template_path, outputdir):
+def generate(template_path, outputdir, force=False):
     for path, contents in gen_templates_with_path(template_path, outputdir):
         make_directories(path)
+        if os.path.exists(path) and not force:
+            raise SystemExit("Will not clobber %r, quitting" % path)
         open(path, "w").write(contents)
 
 def diff(template_path, outputdir):
