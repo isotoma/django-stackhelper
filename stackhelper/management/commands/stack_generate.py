@@ -17,16 +17,19 @@ class Command(BaseCommand):
     )
 
     def handle(self, *args, **options):
-        if len(args) != 1:
+        if len(args) == 0:
+            outputdir = os.path.join(sys.prefix, "etc")
+        elif len(args) > 1:
             self.print_help(sys.argv[0], sys.argv[1])
             return
         else:
             outputdir = args[0]
-            self.stdout.write("Writing configuration files to %r" % outputdir)
-            if not os.path.exists(outputdir):
-                os.mkdir(outputdir)
-            template_path = os.path.join(self.project_root(), "stack_templates")        
-            generate(template_path, outputdir, options['force'])
+            
+        self.stdout.write("Writing configuration files to %r" % outputdir)
+        if not os.path.exists(outputdir):
+            os.mkdir(outputdir)
+        template_path = os.path.join(self.project_root(), "stack_templates")        
+        generate(template_path, outputdir, options['force'])
 
     def project_root(self):
         """ Locate the root of the django project. There is probably a much better way of doing this. """
