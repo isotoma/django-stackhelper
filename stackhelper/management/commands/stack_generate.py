@@ -1,5 +1,6 @@
 from django.core.management.base import BaseCommand
 import os, sys
+from django.conf import settings
 
 from stackhelper import generate
 
