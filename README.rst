@@ -91,6 +91,8 @@ Files will not be overwritten unless --force is specified.
 stack_diff
 ----------
 
+Usage: manage.py stack_diff [directory]
+
 Prints out differences if the generated files would be different. Returns 0
 if the files are all identical, or 1 if the files should be regenerated.
 
