@@ -16,4 +16,5 @@ setup(
     url="http://github.com/isotoma/django-stackhelper",
     author="Doug Winter",
     author_email="doug.winter@isotoma.com",
+    install_requires=['jinja2'],
 )
