@@ -22,6 +22,10 @@ class Command(BaseCommand):
     )
 
     def handle(self, *args, **options):
+
+        if not hasattr(self, 'stdout'):
+            self.stdout = sys.stdout
+
         if len(args) == 0:
             outputdir = os.path.join(sys.prefix, "etc")
         elif len(args) > 1:
@@ -30,11 +34,7 @@ class Command(BaseCommand):
         else:
             outputdir = args[0]
 
-        message = "Writing configuration files to %r" % outputdir
-        if hasattr(self, 'stdout'):
-            self.stdout.write(message)
-        else:
-            print(message)
+        self.stdout.write("Writing configuration files to %r" % outputdir)
         if not os.path.exists(outputdir):
             os.mkdir(outputdir)
         template_path = os.path.join(self.project_root(), "stack_templates")

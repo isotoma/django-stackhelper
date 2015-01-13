@@ -15,6 +15,10 @@ class Command(BaseCommand):
     help = 'generates configuration files in the chosen directory'
 
     def handle(self, *args, **options):
+
+        if not hasattr(self, 'stdout'):
+            self.stdout = sys.stdout
+
         if len(args) != 1:
             self.print_help(sys.argv[0], sys.argv[1])
             return
@@ -25,12 +29,8 @@ class Command(BaseCommand):
                 "stack_templates"
             )
             for path, d in diff(template_path, outputdir):
-                if hasattr(self, 'stdout'):
-                    self.stdout.write(path)
-                    self.stdout.write(d)
-                else:
-                    print(path)
-                    print(d)
+                self.stdout.write(path)
+                self.stdout.write(d)
 
     def project_root(self):
         """ Locate the root of the django project.
