@@ -1,9 +1,14 @@
-from django.core.management.base import BaseCommand
-import os, sys
-from django.conf import settings
+from __future__ import print_function
+
+import os
+import sys
 from optparse import make_option
 
+from django.core.management.base import BaseCommand
+from django.conf import settings
+
 from stackhelper import generate
+
 
 class Command(BaseCommand):
 
@@ -17,6 +22,10 @@ class Command(BaseCommand):
     )
 
     def handle(self, *args, **options):
+
+        if not hasattr(self, 'stdout'):
+            self.stdout = sys.stdout
+
         if len(args) == 0:
             outputdir = os.path.join(sys.prefix, "etc")
         elif len(args) > 1:
@@ -24,21 +33,16 @@ class Command(BaseCommand):
             return
         else:
             outputdir = args[0]
-            
+
         self.stdout.write("Writing configuration files to %r" % outputdir)
         if not os.path.exists(outputdir):
             os.mkdir(outputdir)
-        template_path = os.path.join(self.project_root(), "stack_templates")        
+        template_path = os.path.join(self.project_root(), "stack_templates")
         generate(template_path, outputdir, options['force'])
 
     def project_root(self):
-        """ Locate the root of the django project. There is probably a much better way of doing this. """
-        # possibly put templates in installed applications and loop through them?
+        """ Locate the root of the django project.
+        There is probably a much better way of doing this. """
+        # possibly put templates in installed applications
+        # and loop through them?
         return __import__(settings.SETTINGS_MODULE).__path__[0]
-
-
-
-
-
-
-
