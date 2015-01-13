@@ -1,8 +1,13 @@
+from __future__ import print_function
+
+import os
+import sys
+
 from django.core.management.base import BaseCommand
-import os, sys
 from django.conf import settings
 
 from stackhelper import diff
+
 
 class Command(BaseCommand):
 
@@ -15,19 +20,21 @@ class Command(BaseCommand):
             return
         else:
             outputdir = args[0]
-            template_path = os.path.join(self.project_root(), "stack_templates")        
+            template_path = os.path.join(
+                self.project_root(),
+                "stack_templates"
+            )
             for path, d in diff(template_path, outputdir):
-                self.stdout.write(path)
-                self.stdout.write(d)
+                if hasattr(self, 'stdout'):
+                    self.stdout.write(path)
+                    self.stdout.write(d)
+                else:
+                    print(path)
+                    print(d)
 
     def project_root(self):
-        """ Locate the root of the django project. There is probably a much better way of doing this. """
-        # possibly put templates in installed applications and loop through them?
+        """ Locate the root of the django project.
+        There is probably a much better way of doing this. """
+        # possibly put templates in installed applications
+        # and loop through them?
         return __import__(settings.SETTINGS_MODULE).__path__[0]
-
-
-
-
-
-
-
