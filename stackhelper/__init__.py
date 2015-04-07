@@ -3,7 +3,11 @@ import os
 from django.conf import settings
 import jinja2
 import difflib
-from StringIO import StringIO
+
+try:
+    from StringIO import StringIO
+except ImportError:
+    from io import StringIO
 
 def templates(template_path):
     """ A generator of tuples of templates of the form (data, name) """
