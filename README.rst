@@ -81,12 +81,14 @@ The following management commands are provided:
 stack_generate
 --------------
 
-Usage: manage.py stack_generate [--force] [directory]
+Usage: manage.py stack_generate [--force] [--template-path=<PATH>] [directory]
 
 Generates new versions of configuration files in the specified directory,
 if specified. Otherwise to <sys.prefix>/etc if in a virtual environment.
 
 Files will not be overwritten unless --force is specified.
+
+Templates will be searched for in project_root/stack_templates unless specified in stack_generate
 
 stack_diff
 ----------
