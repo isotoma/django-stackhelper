@@ -21,7 +21,13 @@ class Command(BaseCommand):
             action='store_true',
             default=False,
             help='Force overwriting of existing files',
-        )        
+        )  
+        parser.add_argument(
+            '--template-path',
+            dest='template_path',
+            default=os.path.join(self.project_root(), "stack_templates"),
+            help='Force overwriting of existing files',
+        )             
 
     def handle(self, *args, **options):
 
@@ -39,8 +45,7 @@ class Command(BaseCommand):
         self.stdout.write("Writing configuration files to %r" % outputdir)
         if not os.path.exists(outputdir):
             os.mkdir(outputdir)
-        template_path = os.path.join(self.project_root(), "stack_templates")
-        generate(template_path, outputdir, options['force'])
+        generate(options['template_path'], outputdir, options['force'])
 
     def project_root(self):
         """ Locate the root of the django project.
