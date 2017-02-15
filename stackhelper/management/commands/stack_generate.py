@@ -14,12 +14,14 @@ class Command(BaseCommand):
 
     args = '<directory>'
     help = 'generates configuration files in the chosen directory'
-    option_list = BaseCommand.option_list + (
-        make_option('--force',
-                    action="store_true",
-                    default=False,
-                    help="Force overwriting of existing files"),
-    )
+
+    def add_arguments(self, parser):
+        parser.add_argument(
+            '--force',
+            action='store_true',
+            default=False,
+            help='Force overwriting of existing files',
+        )        
 
     def handle(self, *args, **options):
 
